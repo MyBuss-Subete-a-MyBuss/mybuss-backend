@@ -42,9 +42,11 @@ public class Usuario {
     private String correo;
     @Column(nullable = false)
     private String celular;
-    // En el JSON llega como "contrasena" en texto plano; el service la guarda cifrada y nunca se devuelve
-    @Column(nullable = false)
-    @JsonProperty(value = "contrasena", access = JsonProperty.Access.WRITE_ONLY)
+    // En el JSON llega como "contrasena" en texto plano; el service la guarda
+    // cifrada y nunca se devuelve
+    // @Column(nullable = false)
+    @JsonProperty("contrasena_hash")
+    @Column(name = "contrasena_hash", nullable = false)
     private String contrasenaHash;
     private String fotoUrl;
     @Column(nullable = false)
