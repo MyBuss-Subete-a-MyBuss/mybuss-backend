@@ -35,7 +35,6 @@ public class AuthService {
         this._pasajeroRepo = _pasajeroRepo;
     }
 
-    // Registro público: siempre crea un PASAJERO (los conductores los crea el admin)
     @Transactional
     public Usuario registrarUsuario(Usuario user) {
         validarCampoObligatorio(user.getNombre(), "El nombre es obligatorio.");
@@ -47,11 +46,13 @@ public class AuthService {
         validarCampoObligatorio(user.getContrasenaHash(), "La contraseña es obligatoria.");
 
         if (!TIPOS_DOCUMENTO.contains(user.getTipoDocumento()))
-            throw new IllegalArgumentException("Tipo de documento no válido. Usa: " + String.join(", ", TIPOS_DOCUMENTO) + ".");
+            throw new IllegalArgumentException(
+                    "Tipo de documento no válido. Usa: " + String.join(", ", TIPOS_DOCUMENTO) + ".");
         if (user.getFechaNacimiento() == null || user.getFechaNacimiento().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("La fecha de nacimiento no es válida.");
         if (!user.getContrasenaHash().matches(REGLA_CONTRASENA))
-            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.");
+            throw new IllegalArgumentException(
+                    "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.");
         if (!user.isAceptaTerminos())
             throw new IllegalArgumentException("Debes aceptar los términos y condiciones.");
         if (!user.isAutorizaDatos())
@@ -63,7 +64,8 @@ public class AuthService {
             throw new IllegalArgumentException("Ya existe un usuario con ese número de documento.");
 
         Rol pasajero = _rolRepo.findByNombre(ROL_REGISTRO)
-                .orElseThrow(() -> new IllegalStateException("No existe el rol " + ROL_REGISTRO + " en la base de datos."));
+                .orElseThrow(
+                        () -> new IllegalStateException("No existe el rol " + ROL_REGISTRO + " en la base de datos."));
 
         user.setRol(pasajero);
         user.setContrasenaHash(_encoder.encode(user.getContrasenaHash()));
