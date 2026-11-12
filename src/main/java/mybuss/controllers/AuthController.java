@@ -3,6 +3,7 @@ package mybuss.controllers;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import mybuss.models.Usuario;
 import mybuss.services.AuthService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/auth")
 public class AuthController {
     final AuthService _authService;
