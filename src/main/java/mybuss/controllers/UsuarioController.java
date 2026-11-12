@@ -6,10 +6,14 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
+
+import mybuss.dto.ActualizarUsuarioRequest;
 import mybuss.models.Usuario;
 import mybuss.services.UsuarioService;
 
@@ -29,6 +33,22 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(usuario.get());
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Usuario> actualizarUsuario(
+            @PathVariable("id") UUID id,
+            @RequestBody ActualizarUsuarioRequest request) {
+        try {
+            Optional<Usuario> usuarioActualizado = _usuarioService.actualizarUsuario(id, request);
+            if (!usuarioActualizado.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(usuarioActualizado.get());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/{id}")
