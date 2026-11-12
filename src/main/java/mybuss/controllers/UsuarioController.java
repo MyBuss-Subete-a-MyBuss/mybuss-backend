@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +19,7 @@ import mybuss.models.Usuario;
 import mybuss.services.UsuarioService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/usuario")
 public class UsuarioController {
     final UsuarioService _usuarioService;
